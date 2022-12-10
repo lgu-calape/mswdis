@@ -37,7 +37,7 @@ class Database extends PDO
         return $this->lastInsertId();
     }
 
-    public function addContact($params = [])
+    public function membersContact($params = [])
     {
         $p = $this->prepare("INSERT INTO members_contact_info(member_id,contact_id,relationship) VALUES(?,?,?)");
         $p->execute($params);
@@ -45,7 +45,7 @@ class Database extends PDO
         return $this->lastInsertId();
     }
 
-    public function attrib($params = [])
+    public function membersAttrib($params = [])
     {
         $p = $this->prepare("INSERT INTO members_attr(member_id,attrib_value,remarks) VALUES(?,?,?)");
         $p->execute($params);
@@ -61,7 +61,7 @@ class Database extends PDO
         return $this->lastInsertId();
     }
 
-    public function addHousehold($params = [])
+    public function addToHousehold($params = [])
     {
         $p = $this->prepare("INSERT INTO households(member_id,head_id,psa_ref) VALUES(?,?,?)");
         $p->execute($params);
