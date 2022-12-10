@@ -1,2 +1,2 @@
-# mswdo-ui
-user interface for mswdo system
+# mswdis
+municipal social welfare and development information system
