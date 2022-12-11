@@ -91,7 +91,9 @@ DROP TABLE IF EXISTS `members_attr`;
 CREATE TABLE `members_attr` (
   `member_id` int(11) DEFAULT NULL,
   `attrib_value` varchar(100) DEFAULT NULL,
-  `remarks` varchar(100) DEFAULT NULL
+  `remarks` varchar(100) DEFAULT NULL,
+  KEY `members_attr_FK` (`member_id`),
+  CONSTRAINT `members_attr_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,6 +103,7 @@ CREATE TABLE `members_attr` (
 
 LOCK TABLES `members_attr` WRITE;
 /*!40000 ALTER TABLE `members_attr` DISABLE KEYS */;
+INSERT INTO `members_attr` VALUES (1,'solo parent','3 kids'),(12,'solo parent','deceased spouse');
 /*!40000 ALTER TABLE `members_attr` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +142,8 @@ CREATE TABLE `programs` (
   `name` varchar(45) DEFAULT NULL,
   `class` varchar(200) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `programs_UN` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-09 21:29:52
+-- Dump completed on 2022-12-11 13:37:26
