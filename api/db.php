@@ -31,42 +31,32 @@ class Database extends PDO
 
     public function addMember($params = [])
     {
-        $p = $this->prepare("INSERT INTO members(fname,lname,mname,dob,pob,purok,barangay) VALUES(?,?,?,?,?,?,?)");
-        $p->execute($params);
-
-        return $this->lastInsertId();
+        $p = $this->prepare("INSERT INTO members(fname,lname,mname,dob,pob,purok,barangay) VALUES(:fname,:lname,:mname,:dob,:pob,:purok,:barangay)");
+        return $p->execute($params);
     }
 
     public function membersContact($params = [])
-    {
-        $p = $this->prepare("INSERT INTO members_contact_info(member_id,contact_id,relationship) VALUES(?,?,?)");
-        $p->execute($params);
-
-        return $this->lastInsertId();
+    {        
+        $p = $this->prepare("INSERT INTO members_contact_info(member_id,contact_id,relationship) VALUES(:member_id,:contact_id,:relationship)");
+        return $p->execute($params);
     }
 
     public function membersAttrib($params = [])
     {
-        $p = $this->prepare("INSERT INTO members_attr(member_id,attrib_value,remarks) VALUES(?,?,?)");
-        $p->execute($params);
-
-        return $this->lastInsertId();
+        $p = $this->prepare("INSERT INTO members_attr(member_id,attrib_value,remarks) VALUES(:member_id,:attrib_value,:remarks)");
+        return $p->execute($params);
     }
 
     public function programs($params = [])
     {
-        $p = $this->prepare("INSERT INTO rel_members_programs(member_id,program_id) VALUES(?,?)");
-        $p->execute($params);
-
-        return $this->lastInsertId();
+        $p = $this->prepare("INSERT INTO rel_members_programs(member_id,program_id) VALUES(:member_id,:program_id)");
+        return $p->execute($params);
     }
 
     public function addToHousehold($params = [])
     {
-        $p = $this->prepare("INSERT INTO households(member_id,head_id,psa_ref) VALUES(?,?,?)");
-        $p->execute($params);
-
-        return $this->lastInsertId();
+        $p = $this->prepare("INSERT INTO households(member_id,head_id,psa_ref) VALUES(:member_id,:head_id,:psa_ref)");
+        return $p->execute($params);
     }
 
     /* * * * * * * * * * * * * * * * * * * * *
