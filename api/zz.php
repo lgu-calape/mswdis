@@ -1,18 +1,8 @@
+#!/usr/bin/php
 <?php
 
-$d = filter_input_array(INPUT_POST);
+require 'db.php';
 
-if (!$d) {
-    echo 'error 400' . PHP_EOL;
-    http_response_code(400);
-    exit;
-}
+$db = new Database();
 
-var_dump(filter_var($d['members']));
-
-if (!filter_var($d['members'])) {
-  echo 'error 401' . PHP_EOL;
-  exit;
-}
-
-var_dump($d);
+var_dump($db->addMgmt(['email'=>'hello@domain.tld','passwd'=>'hello123']));

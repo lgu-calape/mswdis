@@ -29,6 +29,12 @@ class Database extends PDO
      * BEGIN FUNCTION - INSERTS 
      * * * * * * * * * * * * * * * * * * * * */
 
+    public function addMgmt($params = [])
+    {
+        $p = $this->prepare("INSERT INTO mgmt(email,passwd) VALUES(:email,:passwd)");
+        return $p->execute($params);
+    }
+
     public function addMember($params = [])
     {
         $p = $this->prepare("INSERT INTO members(fname,lname,mname,dob,pob,purok,barangay) VALUES(:fname,:lname,:mname,:dob,:pob,:purok,:barangay)");
@@ -36,7 +42,7 @@ class Database extends PDO
     }
 
     public function membersContact($params = [])
-    {        
+    {
         $p = $this->prepare("INSERT INTO members_contact_info(member_id,contact_id,relationship) VALUES(:member_id,:contact_id,:relationship)");
         return $p->execute($params);
     }
@@ -117,6 +123,14 @@ class Database extends PDO
         $prep->execute(array_values($param));
 
         return $prep->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getMgmtBy($params = [])
+    {
+        $prep = $this->prepare("SELECT * FROM mgmt WHERE email=:email AND passwd=:passwd");
+        $prep->execute($params);
+
+        return $prep->fetch(2);
     }
 
     public function getMembersBy($param = [])

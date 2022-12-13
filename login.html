@@ -96,10 +96,41 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+      <button class="w-100 btn btn-lg btn-primary" type="button">Sign in</button>
       <p class="mt-5 mb-3 text-muted">ver 12.12.2022</p>
     </form>
   </main>
+  <script>
+    const email = document.querySelector('input[type=email]'), passwd = document.querySelector('input[type=password]');
+
+    document.querySelector('button').addEventListener('click', () => {
+      let e = email.value, p = passwd.value;
+
+      if (e < 8 || p < 1) {
+        return;
+      }
+
+      const fd = new FormData();
+
+      fd.append('email', e);
+      fd.append('passwd', p);
+
+      fetch('api/login.php', {
+        method: 'POST',
+        body: fd
+      }).then(response => {
+        if (response.status == 200) {
+          location.assign('dash.html');
+        }
+
+        if (response.status == 409) {
+          console.log(response.text);
+        }
+      });
+
+      return;
+    });
+  </script>
 </body>
 
 </html>
