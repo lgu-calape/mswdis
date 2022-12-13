@@ -63,7 +63,7 @@ if ($post['tbl'] == 'login') {
 
     if ($db->getMgmtBy($post)) {
         $uid = uniqid();
-        setcookie('uid', $uid, time() + 120, '/');
+        setcookie('uid', $uid, time() + 3600, '/');
         file_put_contents('/tmp/' . $uid, 'mgmt');
         exit;
     }

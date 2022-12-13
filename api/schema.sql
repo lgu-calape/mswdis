@@ -1,7 +1,3 @@
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mswdo` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-USE `mswdo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `households` (
@@ -22,12 +18,13 @@ CREATE TABLE `members` (
   `suffix` varchar(6) DEFAULT NULL,
   `dob` date NOT NULL,
   `pob` varchar(45) DEFAULT NULL,
-  `purok` varchar(45) NOT NULL,
-  `barangay` varchar(45) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `purok` varchar(45) DEFAULT NULL,
+  `barangay` varchar(45) DEFAULT NULL,
+  `gender` varchar(6) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -37,7 +34,7 @@ CREATE TABLE `members_aff` (
   `remarks` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   KEY `members_aff_FK` (`member_id`),
-  CONSTRAINT `members_aff_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
+  CONSTRAINT `members_aff_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='members affiliation';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -48,7 +45,7 @@ CREATE TABLE `members_attr` (
   `remarks` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   KEY `members_attr_FK` (`member_id`),
-  CONSTRAINT `members_attr_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
+  CONSTRAINT `members_attr_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='members attribution';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -59,6 +56,17 @@ CREATE TABLE `members_contact_info` (
   `relationship` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mgmt` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `passwd` varchar(64) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mgmt_UN` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

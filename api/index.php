@@ -24,7 +24,16 @@ if (!in_array($req, ['GET', 'POST', 'PATCH', 'DELETE'])) {
     exit;
 }
 
+$get = filter_input_array(INPUT_GET);
 $post = filter_input_array(INPUT_POST);
+
+if ($get['tbl'] == 'members') {
+  $db = new Database();
+  $res = $db->getMembers();
+
+  echo json_encode($res);
+  exit;
+}
 
 if ($post['tbl'] == 'mgmt') {
 
@@ -233,3 +242,5 @@ if ($post['tbl'] == 'programs') {
         exit;
     }
 }
+
+http_response_code(204);
