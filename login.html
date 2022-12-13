@@ -101,30 +101,31 @@
     </form>
   </main>
   <script>
-    const email = document.querySelector('input[type=email]'), passwd = document.querySelector('input[type=password]');
+    const email = document.querySelector('input[type=email]'), passwd = document.querySelector('input[type=password]'), submit = document.querySelector('button');
 
-    document.querySelector('button').addEventListener('click', () => {
+    submit.addEventListener('click', () => {
       let e = email.value, p = passwd.value;
 
       if (e < 8 || p < 1) {
         return;
       }
 
-      const fd = new FormData();
-
-      fd.append('email', e);
-      fd.append('passwd', p);
+      let d = { "tbl": "login", "email": e, "passwd": p };
 
       fetch('api/login.php', {
         method: 'POST',
-        body: fd
+        body: btoa(JSON.stringify(d))
       }).then(response => {
         if (response.status == 200) {
-          location.assign('dash.html');
+          location.assign('portal.html');
         }
 
-        if (response.status == 409) {
-          console.log(response.text);
+        if (response.status == 403) {
+          passwd.value = ''; passwd.focus();
+        }
+
+        if (response.status == 406) {
+          email.value = ''; email.focus();
         }
       });
 

@@ -10,15 +10,15 @@ if ($req !== 'POST') {
 
 $post = filter_input_array(INPUT_POST);
 
-if (count($post) == 1) {
-    $post = key($post);
+if (!$post) { 
+    $raw = file_get_contents('php://input');
 
-    if (strlen($post) < 62) {
+    if (strlen($raw) < 62) {
         http_response_code(403);
         exit;
     }
 
-    $post = base64_decode($post);
+    $post = base64_decode($raw);
     $post = json_decode($post, true);
 }
 
