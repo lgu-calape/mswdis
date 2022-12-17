@@ -111,27 +111,32 @@
         return;
       }
 
-      let d = { "tbl": "login", "email": e, "passwd": p };
+      login({ "tbl": "login", "email": e, "passwd": p });
+    });
 
-      fetch(API + 'login.php', {
-        method: 'POST',
-        body: btoa(JSON.stringify(d))
-      }).then(response => {
-        if (response.status == 200) {
-          location.assign('portal.html');
-        }
+    function login(d) {
+      let x = new XMLHttpRequest();
 
-        if (response.status == 403) {
-          passwd.value = ''; passwd.focus();
-        }
+      x.addEventListener('readystatechange', () => {
+        if (x.readyState == 4) {
+          if (x.status == 200) {
+            location.assign('portal.html');
+          }
 
-        if (response.status == 406) {
-          email.value = ''; email.focus();
+          if (x.status == 403) {
+            passwd.value = ''; passwd.focus();
+          }
+
+          if (x.status == 406) {
+            email.value = ''; email.focus();
+          }
         }
       });
 
-      return;
-    });
+      x.open('POST', API + 'login.php');
+      x.withCredentials = true;
+      x.send(btoa(JSON.stringify(d)));
+    }
   </script>
 </body>
 
