@@ -1,4 +1,6 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json;charset=utf-8');
 
 $uid = filter_input(INPUT_COOKIE, 'uid');
 
@@ -14,8 +16,6 @@ if (!file_exists('/tmp/' . $uid)) {
 
 require 'db.php';
 require 'fn.php';
-
-header('content-type: application/json');
 
 $req = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
 
@@ -243,4 +243,4 @@ if ($post['tbl'] == 'programs') {
     }
 }
 
-http_response_code(204);
+http_response_code(403);

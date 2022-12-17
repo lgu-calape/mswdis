@@ -1,5 +1,6 @@
 <?php
-header('content-type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json;charset=utf-8');
 
 $req = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
 
@@ -64,7 +65,7 @@ if ($post['tbl'] == 'login') {
     if ($db->getMgmtBy($post)) {
         $uid = uniqid();
         setcookie('uid', $uid, time() + 3600, '/');
-        file_put_contents('/tmp/' . $uid, 'mgmt');
+        file_put_contents('/tmp/' . $uid, '');
         exit;
     }
 }
