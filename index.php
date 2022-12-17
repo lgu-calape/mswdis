@@ -1,5 +1,8 @@
 <?php
-header('Access-Control-Allow-Origin: *');
+$origin = filter_input(INPUT_SERVER,'HTTP_ORIGIN');
+header('Access-Control-Allow-Origin: ' . $origin);
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: DELETE, GET, PATCH, POST');
 header('Content-Type: application/json;charset=utf-8');
 
 $uid = filter_input(INPUT_COOKIE, 'uid');

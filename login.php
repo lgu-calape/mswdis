@@ -1,5 +1,8 @@
 <?php
-header('Access-Control-Allow-Origin: *');
+$origin = filter_input(INPUT_SERVER,'HTTP_ORIGIN');
+header('Access-Control-Allow-Origin: ' . $origin);
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Content-Type: application/json;charset=utf-8');
 
 $req = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
@@ -64,7 +67,7 @@ if ($post['tbl'] == 'login') {
 
     if ($db->getMgmtBy($post)) {
         $uid = uniqid();
-        setcookie('uid', $uid, time() + 3600, '/');
+        setcookie('uid', $uid, ['expires' => time() + 3600, 'path' => '/', 'secure' => true, 'samesite' => 'None']);
         file_put_contents('/tmp/' . $uid, '');
         exit;
     }
