@@ -83,11 +83,11 @@
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required autofocus>
         <label for="floatingInput">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
         <label for="floatingPassword">Password</label>
       </div>
 
@@ -100,6 +100,7 @@
       <p class="mt-5 mb-3 text-muted">ver 12.12.2022</p>
     </form>
   </main>
+  <script src="js/app.js"></script>
   <script>
     const email = document.querySelector('input[type=email]'), passwd = document.querySelector('input[type=password]'), submit = document.querySelector('button');
 
@@ -112,7 +113,7 @@
 
       let d = { "tbl": "login", "email": e, "passwd": p };
 
-      fetch('api/login.php', {
+      fetch(API + 'login.php', {
         method: 'POST',
         body: btoa(JSON.stringify(d))
       }).then(response => {
