@@ -165,7 +165,7 @@
             </select>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label for="purok" class="form-label">Purok / Sitio</label>
             <input type="text" class="form-control" id="purok">
           </div>
@@ -227,6 +227,7 @@
               <option selected>Choose...</option>
               <option>Employed</option>
               <option>Self-Employed</option>
+              <option>Non-Working Spouse</option>
             </select>
           </div>
 
@@ -244,19 +245,7 @@
             <input type="text" class="form-control" id="income">
           </div>
 
-          <div class="col-12">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="ofw">
-              <label class="form-check-label" for="ofw">
-                OFW
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="pwd">
-              <label class="form-check-label" for="pwd">
-                PWD
-              </label>
-            </div>
+          <div class="col-12">            
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="sss">
               <label class="form-check-label" for="sss">
@@ -278,9 +267,31 @@
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="insurance">
               <label class="form-check-label" for="insurance">
-                Other Insurances
+                Others
               </label>
             </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="fourps">
+              <label class="form-check-label" for="fourps">
+                4Ps
+              </label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="socpen">
+              <label class="form-check-label" for="socpen">
+                Social Pension
+              </label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="pwd">
+              <label class="form-check-label" for="pwd">
+                PWD
+              </label>
+            </div>
+
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="solpa">
               <label class="form-check-label" for="solpa">
@@ -305,6 +316,14 @@
       // ...
       return;
     }
+
+    source_of_income.addEventListener('change', (e) => {
+      employment_status.parentNode.classList = 'col-md-3 d-none';
+
+      if (e.target.value.toLowerCase() == 'employed') {
+        employment_status.parentNode.classList.value = 'col-md-3';
+      }
+    })
   </script>
 </body>
 
