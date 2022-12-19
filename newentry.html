@@ -154,7 +154,8 @@
           <h1 class="h2">New Entry</h1>
         </div>
 
-        <h3>Basic Information</h3>
+        <h5 class="text-muted">Basic Information</h5>
+
         <form class="row g-3">
           <div class="col-md-3">
             <label for="brgy" class="form-label">Barangay</label>
@@ -164,26 +165,16 @@
             </select>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="purok" class="form-label">Purok / Sitio</label>
             <input type="text" class="form-control" id="purok">
           </div>
 
-          <div class="col-md-3">
-            <label for="employment_status" class="form-label">Employment Status</label>
-            <select id="employment_status" class="form-select">
-              <option selected>Choose...</option>
-              <option>Employed</option>
-              <option>Self-Employed</option>
-            </select>
+          <div class="col-12">
+            <!--//...-->
           </div>
 
-          <div class="col-md-2">
-            <label for="income" class="form-label">Monthly Income</label>
-            <input type="text" class="form-control" id="income">
-          </div>
-         
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="fname" class="form-label">First Name</label>
             <input type="text" class="form-control" id="fname">
           </div>
@@ -193,7 +184,7 @@
             <input type="text" class="form-control" id="mname">
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="lname" class="form-label">Last Name</label>
             <input type="text" class="form-control" id="lname">
           </div>
@@ -201,6 +192,56 @@
           <div class="col-md-1">
             <label for="suffix" class="form-label">Suffix</label>
             <input type="text" class="form-control" id="suffix">
+          </div>
+
+          <div class="col-12">
+            <!--//...-->
+          </div>
+
+          <div class="col-md-2">
+            <label for="gender" class="form-label">Gender</label>
+            <select id="gender" class="form-select">
+              <option selected>Choose...</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="text" class="form-control" id="dob">
+          </div>
+
+          <div class="col-md-3">
+            <label for="pob" class="form-label">Place of Birth</label>
+            <input type="text" class="form-control" id="pob">
+          </div>
+
+          <div class="col-12">
+            <!--//...-->
+          </div>
+
+          <div class="col-md-3">
+            <label for="source_of_income" class="form-label">Source of Income</label>
+            <select id="source_of_income" class="form-select">
+              <option selected>Choose...</option>
+              <option>Employed</option>
+              <option>Self-Employed</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 d-none">
+            <label for="employment_status" class="form-label">Employment Status</label>
+            <select id="employment_status" class="form-select">
+              <option selected>Choose...</option>
+              <option>Local</option>
+              <option>Abroad</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label for="income" class="form-label">Monthly Income</label>
+            <input type="text" class="form-control" id="income">
           </div>
 
           <div class="col-12">
@@ -248,56 +289,9 @@
             </div>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="button" class="btn btn-primary">Save & Continue</button>
           </div>
         </form>
-
-        <div style="display: none;">
-
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Address</span>
-            <select class="form-select">
-              <option selected>Barangay</option>
-              <option>Abucayan Norte</option>
-              <option>Abucayan Sur</option>
-              <option>Banlasan</option>
-              <option>Bentig</option>
-              <option>Bonbon</option>
-              <option>Catomonan</option>
-            </select>
-            <input type="text" class="form-control" placeholder="Purok / Sitio">
-          </div>
-
-          <div class="input-group mb-3">
-            <span class="input-group-text">Complete Name</span>
-            <input type="text" class="form-control" placeholder="First" aria-label="First">
-            <input type="text" class="form-control" placeholder="Middle" aria-label="Middle">
-            <input type="text" class="form-control" placeholder="Last" aria-label="Last">
-          </div>
-
-          <div class="input-group mb-3">
-            <select id="inputState" class="form-select">
-              <option selected>Gender</option>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-            <input type="date" class="form-control" placeholder="Birth Date">
-            <input type="text" class="form-control" placeholder="Birth Place">
-          </div>
-
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Education">
-            <select class="form-select">
-              <option selected>Employment Status</option>
-              <option>Employed</option>
-              <option>Self-Employed</option>
-            </select>
-            <input type="text" class="form-control" placeholder="Monthly Income">
-          </div>
-
-          <button type="submit" class="btn btn-primary">Submit</button>
-
-        </div>
 
       </main>
     </div>
