@@ -68,7 +68,7 @@
       -webkit-overflow-scrolling: touch;
     }
     
-    .dataTable-table td:nth-child(4),
+    /* .dataTable-table td:nth-child(4),
     .dataTable-table td:nth-child(6),
     .dataTable-table td:nth-child(7),
     .dataTable-table td:nth-child(10),
@@ -77,11 +77,16 @@
     .dataTable-table th:nth-child(7),
     .dataTable-table th:nth-child(10) {
       display: none;
-    }
+    } */
 
     .dataTable-table td:nth-child(2),
     .dataTable-table th:nth-child(2) {
       font-style: italic;
+    }
+
+    .dataTable-table>tbody>tr:hover {
+      background-color: rgb(252, 252, 65);
+      cursor: pointer;
     }
   </style>
   <!-- Custom styles for this template -->
@@ -122,9 +127,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="newentry.html">
-                <span data-feather="file" class="align-text-bottom"></span>
-                New Entry
+              <a class="nav-link" href="#">
+                <span data-feather="users" class="align-text-bottom"></span>
+                Households
               </a>
             </li>
             <li class="nav-item">
@@ -171,8 +176,8 @@
           <h1 class="h2">Beneficiaries</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">New Entry</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Print Data</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.assign('new.html');">New Entry</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="exportbtn">Download</button>
             </div>
             <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
               <span data-feather="calendar" class="align-text-bottom"></span>
@@ -210,21 +215,32 @@
 
           const _data = JSON.parse(x.responseText);
 
-          new window.simpleDatatables.DataTable('.table', {
+          const sdtbl = new window.simpleDatatables.DataTable('.table', {
             data: {
               headings: th,
               data: _data.map(item => Object.values(item))
             },
             perPage: 15,
+            perPageSelect: [15,30,50,100],
             columns: [
-              { select: 0, hidden: true, render: (a,b,c) => {
+              { select: 0, render: (a,b,c) => {
                 c.dataset.id = a
+                return a;
               }},
+              { select: [0,4,6,7,10], hidden: true },
               { select: 1, sort: 'asc' },
               { select: 5, render: (a,b,c) => {
                 b.dataset.dob = a; return getAge(a);
               }},
             ]
+          });
+
+          sdtbl.on('datatable.selectrow', row => {
+            location.assign('member.html?id=' + row.dataset.id);
+          });
+
+          exportbtn.addEventListener('click', () => {
+            sdtbl.export({ type: 'csv', filename: Date.now(), selection: sdtbl.currentPage })
           })
         }
       });
