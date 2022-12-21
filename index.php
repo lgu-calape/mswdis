@@ -46,6 +46,22 @@ if ($get['tbl'] == 'members') {
   exit;
 }
 
+if ($get['tbl'] == 'attribs') {
+    $db = new Database();
+
+    if ($get['id'] > 0) {
+        $res = $db->getAttribsBy(['member_id' => $get['id']]);
+
+        echo json_encode($res);
+        exit;
+    }
+
+    $res = $db->getAttribs(['member_id' => $get['id']]);
+
+    echo json_encode($res);
+    exit;
+}
+
 if ($post['tbl'] == 'mgmt') {
 
     $required_fields = ['email', 'passwd'];
@@ -88,7 +104,7 @@ if ($post['tbl'] == 'mgmt') {
     }
 }
 
-if ($post['tbl'] == 'members') {
+if ($post['tbl'] == 'member') {
 
     $required_fields = ['fname', 'lname', 'mname', 'dob', 'pob', 'purok', 'brgy'];
 
@@ -126,73 +142,9 @@ if ($post['tbl'] == 'members') {
     }
 }
 
-if ($post['tbl'] == 'members_attr') {
+if ($post['tbl'] == 'household') {
 
-    $required_fields = ['member_id', 'attrib_value', 'remarks'];
-
-    unset($post['tbl']);
-
-    if (count($post) < count($required_fields)) {
-        http_response_code(400);
-        exit;
-    }
-
-    foreach ($post as $rf => $val) {
-        if (!in_array($rf, $required_fields)) {
-            http_response_code(400);
-            exit;
-        }
-
-        if (!charlimit($val)) {
-            echo $rf;
-            http_response_code(406);
-            exit;
-        }
-    }
-
-    $db = new Database();
-
-    if ($db->membersAttrib($post)) {
-        http_response_code(201);
-        exit;
-    }
-}
-
-if ($post['tbl'] == 'members_contact_info') {
-
-    $required_fields = ['member_id', 'contact_id', 'relationship'];
-
-    unset($post['tbl']);
-
-    if (count($post) < count($required_fields)) {
-        http_response_code(400);
-        exit;
-    }
-
-    foreach ($post as $rf => $val) {
-        if (!in_array($rf, $required_fields)) {
-            http_response_code(400);
-            exit;
-        }
-
-        if (!charlimit($val)) {
-            echo $rf;
-            http_response_code(406);
-            exit;
-        }
-    }
-
-    $db = new Database();
-
-    if ($db->membersContact($post)) {
-        http_response_code(201);
-        exit;
-    }
-}
-
-if ($post['tbl'] == 'households') {
-
-    $required_fields = ['member_id', 'head_id', 'psa_ref'];
+    $required_fields = ['ref', 'member_id', 'relation', 'psa_ref'];
 
     unset($post['tbl']);
 
@@ -222,7 +174,39 @@ if ($post['tbl'] == 'households') {
     }
 }
 
-if ($post['tbl'] == 'programs') {
+if ($post['tbl'] == 'attrib') {
+
+    $required_fields = ['aname', 'atype', 'avalue','member_id'];
+
+    unset($post['tbl']);
+
+    if (count($post) < count($required_fields)) {
+        http_response_code(400);
+        exit;
+    }
+
+    foreach ($post as $rf => $val) {
+        if (!in_array($rf, $required_fields)) {
+            http_response_code(400);
+            exit;
+        }
+
+        if (!charlimit($val)) {
+            echo $rf;
+            http_response_code(406);
+            exit;
+        }
+    }
+
+    $db = new Database();
+
+    if ($db->addAttrib($post)) {
+        http_response_code(201);
+        exit;
+    }
+}
+
+if ($post['tbl'] == 'program') {
 
     $required_fields = ['name', 'class', 'description'];
 

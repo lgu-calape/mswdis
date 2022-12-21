@@ -1,11 +1,28 @@
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `attributions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aname` varchar(100) DEFAULT NULL,
+  `atype` varchar(100) DEFAULT NULL,
+  `avalue` varchar(100) DEFAULT NULL,
+  `member_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `attributions_FK` (`member_id`),
+  CONSTRAINT `attributions_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `households` (
-  `id` int(11) NOT NULL,
-  `head_id` int(11) DEFAULT NULL,
-  `member_id` int(11) DEFAULT NULL,
-  `psa_ref` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `ref` varchar(32) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `relation` varchar(45) DEFAULT NULL COMMENT 'relation',
+  `psa_ref` varchar(32) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`member_id`),
+  KEY `households_id_IDX` (`ref`) USING BTREE,
+  CONSTRAINT `households_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -28,37 +45,6 @@ CREATE TABLE `members` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `members_aff` (
-  `member_id` int(11) DEFAULT NULL,
-  `aff_value` varchar(100) DEFAULT NULL,
-  `remarks` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  KEY `members_aff_FK` (`member_id`),
-  CONSTRAINT `members_aff_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='members affiliation';
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `members_attr` (
-  `member_id` int(11) DEFAULT NULL,
-  `attrib_value` varchar(100) DEFAULT NULL,
-  `remarks` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  KEY `members_attr_FK` (`member_id`),
-  CONSTRAINT `members_attr_FK` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='members attribution';
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `members_contact_info` (
-  `member_id` int(11) DEFAULT NULL,
-  `contact_id` varchar(100) DEFAULT NULL,
-  `relationship` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mgmt` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
@@ -66,7 +52,7 @@ CREATE TABLE `mgmt` (
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `mgmt_UN` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -79,11 +65,4 @@ CREATE TABLE `programs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `programs_UN` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rel_members_programs` (
-  `member_id` int(11) NOT NULL,
-  `program_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

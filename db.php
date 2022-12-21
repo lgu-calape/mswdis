@@ -41,27 +41,20 @@ class Database extends PDO
         return $p->execute($params);
     }
 
-    public function membersContact($params = [])
-    {
-        $p = $this->prepare("INSERT INTO members_contact_info(member_id,contact_id,relationship) VALUES(:member_id,:contact_id,:relationship)");
+    public function addAttrib($params = []) {
+        $p = $this->prepare("INSERT INTO attributions(aname,atype,avalue,member_id) VALUES(:aname,:atype,:avalue,:member_id)");
         return $p->execute($params);
     }
 
-    public function membersAttrib($params = [])
+    public function addHousehold($params = [])
     {
-        $p = $this->prepare("INSERT INTO members_attr(member_id,attrib_value,remarks) VALUES(:member_id,:attrib_value,:remarks)");
+        $p = $this->prepare("INSERT INTO households(ref,member_id,relation,psa_ref) VALUES(:ref,:member_id,:relation,:psa_ref)");
         return $p->execute($params);
     }
 
-    public function programs($params = [])
+    public function addProgram($params = [])
     {
         $p = $this->prepare("INSERT INTO rel_members_programs(member_id,program_id) VALUES(:member_id,:program_id)");
-        return $p->execute($params);
-    }
-
-    public function addToHousehold($params = [])
-    {
-        $p = $this->prepare("INSERT INTO households(member_id,head_id,psa_ref) VALUES(:member_id,:head_id,:psa_ref)");
         return $p->execute($params);
     }
 
@@ -71,7 +64,7 @@ class Database extends PDO
 
     public function getHouseholds()
     {
-        return $this->query("SELECT * FROM households")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->query("SELECT DISTINCT(ref) FROM households")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getMembers()
@@ -79,24 +72,14 @@ class Database extends PDO
         return $this->query("SELECT * FROM members")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getMembersAttr()
+    public function getAttribs()
     {
-        return $this->query("SELECT * FROM members_attr")->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getMembersContactInfo()
-    {
-        return $this->query("SELECT * FROM members_contact_info")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->query("SELECT * FROM attibutions")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getPrograms()
     {
         return $this->query("SELECT * FROM programs")->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getRelMembersPrograms()
-    {
-        return $this->query("SELECT * FROM rel_members_programs")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /* * * * * * * * * * * * * * * * * * * * * *
@@ -105,7 +88,7 @@ class Database extends PDO
 
     public function getHouseholdsBy($param = [])
     {
-        $params = ['head_id', 'member_id', 'psa_ref'];
+        $params = ['ref','member_id', 'psa_ref'];
 
         if (count($param) > 1) {
             return;
@@ -155,9 +138,9 @@ class Database extends PDO
         return $prep->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getMembersAttrib($param = [])
+    public function getAttribsBy($param = [])
     {
-        $params = ['member_id'];
+        $params = ['member_id', 'aname', 'atype', 'avalue'];
 
         if (count($param) > 1) {
             return;
@@ -169,55 +152,11 @@ class Database extends PDO
             return;
         }
 
-        $sql = "SELECT * FROM members_attr WHERE $key=?";
+        $sql = "SELECT * FROM attributions WHERE $key=?";
 
         $prep = $this->prepare($sql);
         $prep->execute(array_values($param));
 
-        return $prep->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getMembersContactInfoBy($param = [])
-    {
-        $params = ['member_id'];
-
-        if (count($param) > 1) {
-            return;
-        }
-
-        $key = key($param);
-
-        if (!in_array($key, $params)) {
-            return;
-        }
-
-        $sql = "SELECT * FROM members_contact_info WHERE $key=?";
-
-        $prep = $this->prepare($sql);
-        $prep->execute(array_values($param));
-
-        return $prep->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getMembersByAttribBy($param = [])
-    {
-        $params = ['attrib_value', 'remarks'];
-
-        if (count($param) > 1) {
-            return;
-        }
-
-        $key = key($param);
-
-        if (!in_array($key, $params)) {
-            return;
-        }
-
-        $sql = "SELECT * FROM members t1 JOIN members_attr t2 ON t1.id=t2.member_id WHERE t2.$key=?";
-
-        $prep = $this->prepare($sql);
-        $prep->execute(array_values($param));
-
-        return $prep->fetchAll(PDO::FETCH_ASSOC);
+        return $prep->fetch(PDO::FETCH_ASSOC);
     }
 }
