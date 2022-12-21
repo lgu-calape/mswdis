@@ -32,6 +32,14 @@ $post = filter_input_array(INPUT_POST);
 
 if ($get['tbl'] == 'members') {
   $db = new Database();
+
+  if ($get['id'] > 0) {
+    $res = $db->getMembersBy(['id' => $get['id']]);
+
+    echo json_encode($res);
+    exit;
+  }
+
   $res = $db->getMembers();
 
   echo json_encode($res);

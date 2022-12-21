@@ -152,7 +152,7 @@ class Database extends PDO
         $prep = $this->prepare($sql);
         $prep->execute(array_values($param));
 
-        return $prep->fetchAll(PDO::FETCH_ASSOC);
+        return $prep->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getMembersAttrib($param = [])
