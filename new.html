@@ -209,12 +209,17 @@
 
           <div class="col-md-2">
             <label for="dob" class="form-label">Date of Birth</label>
-            <input type="text" class="form-control" id="dob">
+            <input type="date" class="form-control" id="dob">
           </div>
 
           <div class="col-md-3">
             <label for="pob" class="form-label">Place of Birth</label>
             <input type="text" class="form-control" id="pob">
+          </div>
+
+          <div class="col-md-2">
+            <label for="contact_no" class="form-label">Contact #</label>
+            <input type="tel" class="form-control" id="contact_no">
           </div>
 
           <div class="col-12">
@@ -227,7 +232,8 @@
               <option selected>Choose...</option>
               <option>Employed</option>
               <option>Self-Employed</option>
-              <option>Non-Working Spouse</option>
+              <option>Allowance</option>
+              <option>None</option>
             </select>
           </div>
 
@@ -241,8 +247,8 @@
           </div>
 
           <div class="col-md-2">
-            <label for="income" class="form-label">Monthly Income</label>
-            <input type="text" class="form-control" id="income">
+            <label for="monthly_income" class="form-label">Monthly Income</label>
+            <input type="text" class="form-control" id="monthly_income">
           </div>
 
           <div class="col-12">
@@ -251,53 +257,61 @@
 
           <div class="col-12">            
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="sss">
+              <input class="form-check-input" type="checkbox" id="sss" data-type="insurance">
               <label class="form-check-label" for="sss">
                 SSS
               </label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="gsis">
+              <input class="form-check-input" type="checkbox" id="gsis" data-type="insurance">
               <label class="form-check-label" for="gsis">
                 GSIS
               </label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="philhealth">
+              <input class="form-check-input" type="checkbox" id="philhealth" data-type="insurance">
               <label class="form-check-label" for="philhealth">
                 PhilHealth
               </label>
             </div>
+
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="insurance">
-              <label class="form-check-label" for="insurance">
+              <input class="form-check-input" type="checkbox" id="others">
+              <label class="form-check-label" for="others">
                 Others
               </label>
             </div>
 
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="fourps">
+              <input class="form-check-input" type="checkbox" id="fourps" data-type="govt_subsidy">
               <label class="form-check-label" for="fourps">
                 4Ps
               </label>
             </div>
 
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="socpen">
+              <input class="form-check-input" type="checkbox" id="socpen" data-type="govt_subsidy">
               <label class="form-check-label" for="socpen">
                 Social Pension
               </label>
             </div>
 
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="pwd">
+              <input class="form-check-input" type="checkbox" id="ofw" data-type="QFY">
+              <label class="form-check-label" for="ofw">
+                OFW
+              </label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="pwd" data-type="QFY">
               <label class="form-check-label" for="pwd">
                 PWD
               </label>
             </div>
 
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="solpa">
+              <input class="form-check-input" type="checkbox" id="solpa" data-type="QFY">
               <label class="form-check-label" for="solpa">
                 Solo Parent
               </label>
@@ -318,14 +332,28 @@
   <script>
     function save() {
       // ...
+      let x = new XMLHttpRequest();
+
+      x.open('POST',API);
+      x.send();
+
       return;
     }
 
     source_of_income.addEventListener('change', (e) => {
+      const soi = e.target.value.toLowerCase();
       employment_status.parentNode.classList = 'col-md-3 d-none';
 
-      if (e.target.value.toLowerCase() == 'employed') {
+      if (soi == 'employed') {
         employment_status.parentNode.classList.value = 'col-md-3';
+      }
+
+      monthly_income.disabled = false;
+      monthly_income.value = '';
+
+      if (soi == 'none') {
+        monthly_income.disabled = true;
+        monthly_income.value = 0;
       }
     })
   </script>
