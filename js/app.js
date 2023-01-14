@@ -3,7 +3,7 @@ const LNA = 'N/A';
 const LREQUIRED = 'Update required';
 
 function get_age(d) {
-    return Math.floor((new Date() - new Date(d).getTime()) / 3.15576e+10);
+    return Math.floor((new Date() - new Date(d).getTime()) / 3.15576e+10).toString();
 }
 
 function get_param(k) {
