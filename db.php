@@ -69,7 +69,7 @@ class Database extends PDO
 
     public function getMembers()
     {
-        return $this->query("SELECT * FROM members")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->query("SELECT a.*,b.name AS barangay FROM members a JOIN barangay b ON a.barangay=b.id")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAttribs()
@@ -130,7 +130,7 @@ class Database extends PDO
             return;
         }
 
-        $sql = "SELECT * FROM members WHERE $key=?";
+        $sql = "SELECT a.*,b.name AS barangay FROM members a JOIN barangay b ON a.barangay=b.id WHERE a.$key=?";
 
         $prep = $this->prepare($sql);
         $prep->execute(array_values($param));
