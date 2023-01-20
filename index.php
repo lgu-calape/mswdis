@@ -62,6 +62,15 @@ if ($get['tbl'] == 'attribs') {
     exit;
 }
 
+if ($get['tbl'] == 'brgys') {
+    $db = new Database();
+
+    $res = $db->getBarangays();
+
+    echo json_encode($res);
+    exit;
+}
+
 if ($post['tbl'] == 'mgmt') {
 
     $required_fields = ['email', 'passwd'];

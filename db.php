@@ -82,6 +82,11 @@ class Database extends PDO
         return $this->query("SELECT * FROM programs")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getBarangays()
+    {
+        return $this->query("SELECT * FROM barangay")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * *
      * BEGIN FUNCTION GETTERS BY SPECIFIC FIELD
      * * * * * * * * * * * * * * * * * * * * * */
