@@ -155,7 +155,6 @@
             <label for="brgy" class="form-label">Barangay</label>
             <select id="brgy" class="form-select">
               <option selected>Choose...</option>
-              <option>...</option>
             </select>
           </div>
 
@@ -312,7 +311,7 @@
             </div>
           </div>
           <div class="col-12">
-            <button type="button" class="btn btn-primary">Save & Continue</button>
+            <button type="button" class="btn btn-primary" id="savencontinue">Save & Continue</button>
           </div>
         </form>
 
@@ -322,14 +321,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?_=1234"></script>
   <script>
-    function save() {
+    function save_to_db(d) {
       // ...
       let x = new XMLHttpRequest();
 
+      x.addEventListener('readystatechange', () => {
+        if (x.readyState === 4) {
+          if (x.status !== 200) {
+            alert('An error has occured. Try again.');
+          }
+        }
+      })
+
       x.open('POST',API);
-      x.send();
+      x.send(d);
 
       return;
     }
@@ -349,6 +356,98 @@
         monthly_income.disabled = true;
         monthly_income.value = 0;
       }
+    })
+
+    BRGY().then(d => {
+      d.forEach(b => {
+        let o = document.createElement('option');
+        o.value = b.id; o.text = b.name;
+        brgy.add(o);
+      })
+    })
+
+    function required_fields() {
+      return {
+        'brgy': brgy.value,
+        'purok': purok.value,
+        'fname': fname.value,
+        'mname': mname.value,
+        'lname': lname.value,
+        'suffix': suffix.value,
+        'gender': gender.value,
+        'dob': dob.value,
+        'pob': pob.value,
+        'contact': contact_no.value,
+        'soi': source_of_income.value,
+        'income': monthly_income.value,
+        'employment': employment_status.value,
+        
+      }
+    }
+
+    savencontinue.addEventListener('click', e => {
+      const rf = required_fields(); var rf_failed = false;
+
+      Array.from(document.querySelector('form').elements).forEach(e => {
+        e.style.removeProperty('border-color');
+      })
+
+      if (rf.brgy.indexOf('...') != -1) {
+        brgy.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.purok.length < 3) {
+        purok.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.fname.length < 2) {
+        fname.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.lname.length < 2) {
+        lname.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (!is_valid_date(rf.dob)) {
+        dob.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.gender.indexOf('...') != -1) {
+        gender.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.pob.length < 5) {
+        pob.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.contact.length < 10) {
+        contact_no.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.soi.indexOf('...') != -1) {
+        source_of_income.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      if (rf.income < 1000) {
+        monthly_income.style.borderColor = 'red';
+        rf_failed = true;
+      }
+
+      console.log(rf);
+
+      if (rf_failed) return;
+
+      save_to_db(rf);
+
     })
 
     feather.replace({ 'aria-hidden': 'true' })
