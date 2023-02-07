@@ -37,7 +37,7 @@ class Database extends PDO
 
     public function addMember($params = [])
     {
-        $p = $this->prepare("INSERT INTO members(fname,lname,mname,dob,pob,purok,barangay) VALUES(:fname,:lname,:mname,:dob,:pob,:purok,:barangay)");
+        $p = $this->prepare("INSERT INTO members(fname,lname,mname,suffix,gender,dob,pob,purok,barangay) VALUES(:fname,:lname,:mname,:suffix,:gender,:dob,:pob,:purok,:brgy)");
         return $p->execute($params);
     }
 

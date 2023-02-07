@@ -115,16 +115,18 @@ if ($post['tbl'] == 'mgmt') {
 
 if ($post['tbl'] == 'member') {
 
-    $required_fields = ['fname', 'lname', 'mname', 'dob', 'pob', 'purok', 'brgy'];
+    $required_fields = ['fname', 'lname', 'mname', 'suffix', 'gender', 'dob', 'pob', 'purok', 'brgy'];
 
-    unset($post['tbl']);
+    foreach (['tbl', 'contact', 'soi', 'income', 'employment'] as $k) {
+        unset($post[$k]);
+    }
 
     if (count($post) < count($required_fields)) {
         http_response_code(400);
         exit;
     }
 
-    foreach ($post as $rf => $val) {
+    foreach ($post as $rf => $val) {     
         if (!in_array($rf, $required_fields)) {
             http_response_code(400);
             exit;
@@ -134,6 +136,10 @@ if ($post['tbl'] == 'member') {
             echo $rf;
             http_response_code(406);
             exit;
+        }
+
+        if (in_array($rf, ['mname','suffix'])) {
+            continue;
         }
 
         if (!charlimit($val)) {
