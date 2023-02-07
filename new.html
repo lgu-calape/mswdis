@@ -66,6 +66,14 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
     }
+
+    form :is(input[type=text]) {
+      text-transform: capitalize;
+    }
+
+    form :is(input[type=date]) {
+      text-transform: uppercase;
+    }
   </style>
   <!-- Custom styles for this template -->
   <link href="css/dashboard.css" rel="stylesheet">
@@ -324,19 +332,27 @@
   <script src="js/app.js?_=1234"></script>
   <script>
     function save_to_db(d) {
-      // ...
+      let f = new FormData();
+
+      f.append('tbl','member');
+
+      for (var k in d) {
+        f.append(k, d[k]);
+      }
+
       let x = new XMLHttpRequest();
 
-      x.addEventListener('readystatechange', () => {
+      x.addEventListener('readystatechange', () => {        
         if (x.readyState === 4) {
-          if (x.status !== 200) {
-            alert('An error has occured. Try again.');
+          if (x.status == 201) {
+            alert('Data successfully added!');
           }
         }
       })
 
-      x.open('POST',API);
-      x.send(d);
+      x.open('POST',API + 'index.php');
+      x.withCredentials = true;
+      x.send(f);
 
       return;
     }
@@ -380,8 +396,7 @@
         'contact': contact_no.value,
         'soi': source_of_income.value,
         'income': monthly_income.value,
-        'employment': employment_status.value,
-        
+        'employment': employment_status.value        
       }
     }
 
@@ -437,17 +452,25 @@
         rf_failed = true;
       }
 
-      if (rf.income < 1000) {
+      if (rf.soi != 'None' && rf.income < 1000) {
         monthly_income.style.borderColor = 'red';
         rf_failed = true;
       }
 
-      console.log(rf);
+      if (rf.soi != 'Employed') {
+        rf.employment = '';
+      }
 
       if (rf_failed) return;
 
       save_to_db(rf);
 
+    })
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (source_of_income.value.toLowerCase() == 'employed') {
+        employment_status.parentNode.classList.value = 'col-md-3';
+      }
     })
 
     feather.replace({ 'aria-hidden': 'true' })
