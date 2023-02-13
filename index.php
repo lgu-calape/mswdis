@@ -157,6 +157,52 @@ if ($post['tbl'] == 'member') {
     }
 }
 
+if ($post['tbl'] == 'member_edit') {
+
+    $required_fields = ['member_id', 'fname', 'lname', 'mname', 'suffix', 'gender', 'dob', 'pob', 'purok', 'brgy'];
+
+    foreach (['tbl', 'contact', 'soi', 'income', 'employment'] as $k) {
+        if (isset($post[$k])) {
+            unset($post[$k]);
+        }
+    }
+
+    if (count($post) < count($required_fields)) {
+        http_response_code(400);
+        exit;
+    }
+
+    foreach ($post as $rf => $val) {     
+        if (!in_array($rf, $required_fields)) {
+            http_response_code(400);
+            exit;
+        }
+
+        if ($rf == 'dob' && !checkdatefmt($val)) {
+            echo $rf;
+            http_response_code(406);
+            exit;
+        }
+
+        if (in_array($rf, ['mname','suffix'])) {
+            continue;
+        }
+
+        if (!charlimit($val)) {
+            echo $rf;
+            http_response_code(406);
+            exit;
+        }
+    }
+
+    $db = new Database();
+
+    if ($db->editMember($post)) {
+        http_response_code(201);
+        exit;
+    }
+}
+
 if ($post['tbl'] == 'household') {
 
     $required_fields = ['ref', 'member_id', 'relation', 'psa_ref'];

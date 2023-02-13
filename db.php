@@ -41,6 +41,12 @@ class Database extends PDO
         return $p->execute($params);
     }
 
+    public function editMember($params = [])
+    {
+        $p = $this->prepare("UPDATE members SET fname=:fname, lname=:lname, mname=:mname, suffix=:suffix, gender=:gender, dob=:dob, pob=:pob, purok=:purok, barangay=:brgy WHERE id=:member_id");
+        return $p->execute($params);
+    }
+
     public function addAttrib($params = []) {
         $p = $this->prepare("INSERT INTO attributions(aname,atype,avalue,member_id) VALUES(:aname,:atype,:avalue,:member_id)");
         return $p->execute($params);
@@ -69,7 +75,7 @@ class Database extends PDO
 
     public function getMembers()
     {
-        return $this->query("SELECT a.*,b.name AS barangay FROM members a JOIN barangay b ON a.barangay=b.id")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->query("SELECT a.*,b.name barangay FROM members a JOIN barangay b ON a.barangay=b.id")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAttribs()
